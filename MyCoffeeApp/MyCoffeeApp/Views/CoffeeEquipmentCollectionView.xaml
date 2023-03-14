@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+             xmlns:model="clr-namespace:MyCoffeeApp.Models"
+             x:Class="MyCoffeeApp.Views.CoffeeEquipmentCollectionView"
+             x:Name="CoffeePageCollectionView"
+             x:DataType="viewmodels:CoffeeEquipmentCollectionViewModel">
+    <ContentPage.BindingContext>
+        <!--model binding-->
+        <viewmodels:CoffeeEquipmentViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <CollectionView SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}" 
+                        BackgroundColor="Transparent"
+                        ItemsSource="{Binding CoffeeGroups}"
+                        ItemsLayout="VerticalList"
+                        ItemSizingStrategy="MeasureAllItems"
+                        IsGrouped="True"
+                        SelectionMode="Single"
+                        RemainingItemsThreshold="1"
+                        ><!--RemainingItemsThresholdReachedCommand="{Binding DelayLoadMoreCommand}"-->
+            <CollectionView.EmptyView>
+                <StackLayout>
+                    <Label Text="No coffee" HorizontalOptions="Center" TextColor="Red"></Label>
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Coffee">
+                    <SwipeView >
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Favorite" 
+                                        Command="{Binding  
+                                    Source={RelativeSource 
+                                    AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, 
+                                    Path=FavoriteCommand}"
+                                        CommandParameter="{Binding .}"></SwipeItem>
+
+                                <SwipeItem Text="Delete" IsDestructive="True" BackgroundColor="Red"></SwipeItem>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid Padding="10">
+                            <Frame CornerRadius="10" HasShadow="True">
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="{Binding Image}" WidthRequest="66"></Image>
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label VerticalOptions="Center" FontSize="Large" Text="{Binding Name}"></Label>
+                                        <Label VerticalOptions="Center" Text="{Binding Roaster}" FontSize="Large"></Label>
+                                    </StackLayout>
+                                    <Button Text="Favorite" 
+                                        Command="{Binding  
+                                    Source={RelativeSource 
+                                    AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, 
+                                    Path=FavoriteCommand}"
+                                        CommandParameter="{Binding .}"></Button>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <!--Header and Footer-->
+            <CollectionView.Header>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Coffee of the World" FontSize="Medium"  ></Label>
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.Footer>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button Text="Load More"></Button>
+                </StackLayout>
+            </CollectionView.Footer>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

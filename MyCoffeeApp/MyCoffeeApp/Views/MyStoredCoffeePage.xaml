@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+             x:Class="MyCoffeeApp.Views.MyStoredCoffeePage"
+             BackgroundColor="{AppThemeBinding 
+                                Dark={StaticResource WindowBackgroundColorDark}, 
+                                Light={StaticResource WindowBackgroundColor}}">
+
+    <ContentPage.BindingContext>
+        <viewmodels:CoffeeInfoViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding ItemList}"
+                      HasUnevenRows="True"
+                      SeparatorColor="Blue"
+                      SeparatorVisibility="None"
+                      IsPullToRefreshEnabled="True"
+                      RefreshControlColor="Red"
+                      Style="{StaticResource CoffeeListView}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Favorite"></MenuItem>
+                                <MenuItem Text="Delete"></MenuItem>
+                            </ViewCell.ContextActions>
+                            <Grid Padding="10">
+                                <Frame CornerRadius="10" HasShadow="True" Style="{StaticResource CoffeeCard}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="{Binding Image}" HeightRequest="60" WidthRequest="66"></Image>
+                                        <StackLayout VerticalOptions="Center">
+                                            <Label VerticalOptions="Center" Text="{Binding Name}" Style="{StaticResource LabelLarge}"></Label>
+                                            <Label VerticalOptions="Center" Text="{Binding Roaster}" Style="{StaticResource LabelLarge}"></Label>
+                                            <Label VerticalOptions="Center" Text="{Binding Id}" Style="{StaticResource LabelSmall}"></Label>
+                                        </StackLayout>
+                                        <StackLayout VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                                            <Button Text="Edit"  Style="{StaticResource ButtonOutline}" FontSize="Small"></Button>
+                                            <Button Text="Delete"  Style="{StaticResource ButtonOutline}" FontSize="Small"></Button>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </Grid>
+                        </ViewCell> 
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <StackLayout>
+                        <Label Text="Coffee Info" FontSize="Large" TextColor="Gray"></Label>
+                    </StackLayout>
+                </ListView.Footer>
+            </ListView>
+        </StackLayout>
+      
+    </ContentPage.Content>
+</ContentPage>

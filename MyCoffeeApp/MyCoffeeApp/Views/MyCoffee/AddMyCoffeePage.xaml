@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyCoffeeApp.Views.MyCoffee.AddMyCoffeePage"
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+             xmlns:model="clr-namespace:MyCoffeeApp.Models"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             Title="{Binding Title}"
+             x:DataType="viewmodels:AddMyCoffeeViewModel"
+             BackgroundColor="White"
+             Shell.PresentationMode="Animated">
+    <ContentPage.BindingContext>
+        <viewmodels:AddMyCoffeeViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <Label Text="Name:"
+                   FontSize="Medium"/>
+            <Entry Text="{Binding Name}" />
+            <Label Text="Roaster:"
+                   FontSize="Medium" />
+            <Entry Text="{Binding Roaster}" />
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center" />
+
+            <Button
+                Padding="20,0"
+                Command="{Binding SaveCommand}"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Save"
+                VerticalOptions="EndAndExpand"
+                BorderWidth="1"
+                />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

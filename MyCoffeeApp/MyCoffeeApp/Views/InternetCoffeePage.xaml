@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+             xmlns:model="clr-namespace:MyCoffeeApp.Models"
+             x:Class="MyCoffeeApp.Views.InternetCoffeePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             BackgroundColor="White"
+             x:Name="MyCoffee"
+             x:DataType="viewmodels:InternetCoffeeViewModel">
+    <!--compile time binding-->
+    <ContentPage.BindingContext>
+        <!--model binding-->
+        <viewmodels:InternetCoffeeViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter"></xct:ItemSelectedEventArgsConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ListView CachingStrategy="RecycleElement" 
+              BackgroundColor="Transparent"
+              ItemsSource="{Binding Coffee}"
+              HasUnevenRows="True" 
+              SeparatorVisibility="None" 
+              SelectionMode="None"
+              IsGroupingEnabled="True" 
+              GroupDisplayBinding="{Binding Key}" 
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}" 
+              RefreshCommand="{Binding RefreshCommand}" 
+              RefreshControlColor="Red">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Coffee">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Delete" Command="{Binding Source={x:Reference MyCoffeePage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}" IsDestructive="True"></MenuItem>
+                    </ViewCell.ContextActions>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding Image}" WidthRequest="66"></Image>
+                                <StackLayout VerticalOptions="Center">
+                                    <Label VerticalOptions="Center" FontSize="Large" Text="{Binding Name}"></Label>
+                                    <Label VerticalOptions="Center" Text="{Binding Roaster}" FontSize="Large"></Label>
+                                    <Label VerticalOptions="Center" Text="{Binding Id}" FontSize="Small"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>

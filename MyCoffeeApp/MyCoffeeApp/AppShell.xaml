@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:MyCoffeeApp.Views"
+       Title="MyCoffeeApp"
+       x:Class="MyCoffeeApp.AppShell"
+       xmlns:fontAwesome="clr-namespace:FontAwesome"
+       >
+
+    <!--
+        The overall app visual hierarchy is defined here, along with navigation.
+    
+        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
+    -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Dark=Black, Light=White}" />
+                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Dark=White, Light=Black}" />
+                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Dark=White, Light=Black}" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Dark=#95FFFFFF, Light=#95000000}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Dark=Black, Light=White}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Dark=White, Light=Black}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Dark=#95FFFFFF, Light=#95000000}"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Dark=White, Light=Black}"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+
+            <!--
+            Default Styles for all Flyout Items
+            https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
+            -->
+            <Style Class="FlyoutItemLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="White"></Setter>
+            </Style>
+            <Style Class="FlyoutItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{x:OnPlatform UWP=Transparent, iOS=White}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <!--
+            Custom Style you can apply to any Flyout Item
+            -->
+            <Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <!-- 
+        When the Flyout is visible this defines the content to display in the flyout.
+        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
+        https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
+    -->
+    <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate local:LoginPage}"></ShellContent>
+    </ShellItem>
+
+    <FlyoutItem Title="Coffee Page" >
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Color="{AppThemeBinding Dark=White,
+                                        Light={StaticResource SystemGray5Dark}}"
+                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Bars}"></FontImageSource>
+        </FlyoutItem.Icon>
+        <ShellContent Route="MyCoffeePage"  ContentTemplate="{DataTemplate local:MyCoffeePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Equipment">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Color="{AppThemeBinding Dark=White,
+                                        Light={StaticResource SystemGray5Dark}}"
+                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.Wrench}"></FontImageSource>
+        </FlyoutItem.Icon>
+        <!--<ShellContent Route="EquipmentPage" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />-->
+        <Tab Title="Tab 1">
+            <Tab.Icon> 
+                <FontImageSource FontFamily="FAS"
+                                 Color="{AppThemeBinding Dark=White, Light={StaticResource SystemGray5Dark}}"
+                                 Glyph="{x:Static fontAwesome:FontAwesomeIcons.MugHot}"></FontImageSource>
+            </Tab.Icon>
+            <ShellContent Route="EquipmentPage" Title="Tab 1" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+            <ShellContent Route="EquipmentPage2" Title="Tab 2" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+        </Tab>
+        <Tab Title="Tab 2">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS"
+                                 Color="{AppThemeBinding Dark=White, Light={StaticResource SystemGray5Dark}}"
+                                 Glyph="{StaticResource IconCoffee}"></FontImageSource>
+            </Tab.Icon>
+            <ShellContent Route="EquipmentPage3" Title="Tab 1" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+            <ShellContent Route="EquipmentPage4" Title="Tab 2" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Stored Coffee" >
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Color="{AppThemeBinding Dark=White,
+                                        Light={StaticResource SystemGray5Dark}}"
+                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.BagsShopping}"></FontImageSource>
+        </FlyoutItem.Icon>
+        <ShellContent Route="MyStoredCoffeePage" ContentTemplate="{DataTemplate local:MyStoredCoffeePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="FAS"
+                             Color="{AppThemeBinding Dark=White,
+                                        Light={StaticResource SystemGray5Dark}}"
+                             Glyph="{x:Static fontAwesome:FontAwesomeIcons.SlidersH}"></FontImageSource>
+        </FlyoutItem.Icon>
+        <ShellContent Route="SettingsPage" ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem> 
+   
+
+</Shell>

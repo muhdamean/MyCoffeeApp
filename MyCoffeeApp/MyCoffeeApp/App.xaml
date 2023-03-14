@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyCoffeeApp.App">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#2196F3</Color>
+            <Color x:Key="RefreshColor">red</Color>
+
+            <Color x:Key="TextColor">#000000</Color>
+            <Color x:Key="TextColorDark">White</Color>
+
+            <Color x:Key="WindowBackgroundColor">#f2f2f7</Color>
+            <Color x:Key="WindowBackgroundColorDark">Black</Color>
+
+            <Color x:Key="CardBackground">White</Color>
+            <Color x:Key="CardBackgroundDark">#1C1C1E</Color>
+
+            <Color x:Key="SystemBlue">#007aff</Color>
+            <Color x:Key="SystemGreen"> #34c759</Color>
+            <Color x:Key="SystemIndigo">#5856d6</Color>
+            <Color x:Key="SystemOrange">#ff9500</Color>
+            <Color x:Key="SystemPink">#ff2d55</Color>
+            <Color x:Key="SystemPurple">#af52de</Color>
+            <Color x:Key="SystemRed">#ff3b30</Color>
+            <Color x:Key="SystemTeal">#5ac8fa</Color>
+            <Color x:Key="SystemYellow">#ffcc00</Color>
+
+            <Color x:Key="SystemGray">#8e8e93</Color>
+            <Color x:Key="SystemGray2">#aeaeb2</Color>
+            <Color x:Key="SystemGray3">#c7c7cc</Color>
+            <Color x:Key="SystemGray4">#d1d1d6</Color>
+            <Color x:Key="SystemGray5">#e5e5ea</Color>
+            <Color x:Key="SystemGray6">#f2f2f7</Color>
+
+            <Color x:Key="SystemBlueDark">#0a84ff</Color>
+            <Color x:Key="SystemGreenDark">#30d158</Color>
+            <Color x:Key="SystemIndigoDark">#5e5ce6</Color>
+            <Color x:Key="SystemOrangeDark">#ff9f0a</Color>
+            <Color x:Key="SystemPinkDark">#ff375f</Color>
+            <Color x:Key="SystemPurpleDark">#bf5af2</Color>
+            <Color x:Key="SystemRedDark">#ff453a</Color>
+            <Color x:Key="SystemTealDark">#64d2ff</Color>
+            <Color x:Key="SystemYellowDark">#ffd60a</Color>
+
+            <Color x:Key="SystemGrayDark">#8e8e93</Color>
+            <Color x:Key="SystemGray2Dark">#636366</Color>
+            <Color x:Key="SystemGray3Dark">#484848</Color>
+            <Color x:Key="SystemGray4Dark">#3a3a3c</Color>
+            <Color x:Key="SystemGray5Dark">#2c2c2e</Color>
+            <Color x:Key="SystemGray6Dark">#1c1c1e</Color>
+
+            <Style x:Key="CoffeeListView" TargetType="ListView">
+                <Setter Property="HasUnevenRows" Value="True"></Setter>
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="SeparatorVisibility" Value="None"></Setter>
+                <Setter Property="RefreshControlColor" Value="{StaticResource SystemBlue}"></Setter>
+                <Setter Property="IsPullToRefreshEnabled" Value="True"></Setter>
+            </Style>
+
+            <Style x:Key="ButtonOutline" TargetType="Button">
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark},
+                    Light={StaticResource TextColor}}"></Setter>
+                <Setter  Property="WidthRequest" Value="150"></Setter>
+                <Setter Property="HeightRequest" Value="{OnPlatform iOS=30, Android=40}"></Setter>
+                <Setter Property="FontSize" Value="Small"></Setter>
+                <Setter Property="CornerRadius" Value="6"></Setter>
+                <Setter Property="BorderWidth" Value="1"></Setter>
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="BorderColor"  Value="{AppThemeBinding Dark={StaticResource TextColorDark},
+                    Light={StaticResource TextColor}}"></Setter>
+                <Setter Property="HorizontalOptions" Value="Center"></Setter>
+            </Style>
+
+            <Style x:Key="BButton" TargetType="Button" BasedOn="{StaticResource ButtonOutline}">
+                <Setter Property="TextColor" Value="Orange"></Setter>
+            </Style>
+
+            <Style x:Key="BaseRefreshView" TargetType="RefreshView">
+                <Setter Property="RefreshColor"
+                        Value="{StaticResource SystemBlue}"/>
+            </Style>
+
+            <Style x:Key="BaseLabel" TargetType="Label">
+                <Setter Property="TextColor" 
+                        Value="{AppThemeBinding Dark={StaticResource TextColorDark},
+                    Light={StaticResource TextColor}}" />
+            </Style>
+
+            <Style x:Key="LabelMicro" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+                <Setter Property="FontSize" Value="Micro"/>
+            </Style>
+            <Style x:Key="LabelSmall" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+                <Setter Property="FontSize" Value="Small"/>
+            </Style>
+
+            <Style x:Key="LabelMedium" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+
+            <Style x:Key="LabelLarge" TargetType="Label" BasedOn="{StaticResource BaseLabel}">
+                <Setter Property="FontSize" Value="Large"/>
+            </Style>
+            
+            <Style x:Key="CoffeeCard" TargetType="Frame">
+                <Setter Property="HasShadow" Value="{OnPlatform Android=True, iOS=false, Default=true}"></Setter>
+                <Setter Property="CornerRadius" Value="20"></Setter>
+                <Setter Property="BackgroundColor" 
+                        Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark},
+                    Light={StaticResource CardBackground}}" />
+            </Style>
+
+            <x:String x:Key="IconCoffee">&#xf0f4;</x:String>
+            <!--<Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>-->
+        </ResourceDictionary>        
+    </Application.Resources>
+</Application>

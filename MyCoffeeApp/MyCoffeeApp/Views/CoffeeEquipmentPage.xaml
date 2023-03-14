@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:MyCoffeeApp.ViewModels"
+             xmlns:model="clr-namespace:MyCoffeeApp.Models"
+             x:Class="MyCoffeeApp.Views.CoffeeEquipmentPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:fontAwesome="clr-namespace:FontAwesome"
+             BackgroundColor="{AppThemeBinding 
+                                Dark={StaticResource WindowBackgroundColorDark}, 
+                                Light={StaticResource WindowBackgroundColor}}"
+             x:Name="CoffeePage"
+             x:DataType="viewmodels:CoffeeEquipmentViewModel"><!--compile time binding-->
+    <ContentPage.BindingContext>
+        <!--model binding-->
+        <viewmodels:CoffeeEquipmentViewModel/>
+    </ContentPage.BindingContext> 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter"></xct:ItemSelectedEventArgsConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Clicked="ToolbarItem_Clicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <!--ItemSelected="ListView_ItemSelected" ItemTapped="ListView_ItemTapped"-->
+    <ListView SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"  
+              CachingStrategy="RecycleElement" 
+              ItemsSource="{Binding CoffeeGroups}"
+              IsGroupingEnabled="True" 
+              GroupDisplayBinding="{Binding Key}" 
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}" 
+              RefreshCommand="{Binding RefreshCommand}" 
+              Style="{StaticResource CoffeeListView}">
+        <ListView.Behaviors>
+            <xct:EventToCommandBehavior 
+                EventName="ItemSelected" 
+                Command="{Binding SelectedCommand}"
+                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}">
+            </xct:EventToCommandBehavior>
+        </ListView.Behaviors>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Coffee">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Favourite" Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}" CommandParameter="{Binding .}"></MenuItem>
+                        <!--Clicked="MenuItem_Clicked"-->
+                        <MenuItem Text="Delete" IsDestructive="True"></MenuItem>
+                    </ViewCell.ContextActions>
+                    <Grid Padding="10">
+                        <Frame Style="{StaticResource CoffeeCard}">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding Image}" WidthRequest="66"></Image>
+                                <StackLayout VerticalOptions="Center">
+                                    <Label VerticalOptions="Center" Text="{Binding Name}" Style="{StaticResource LabelLarge}"></Label>
+                                    <Label VerticalOptions="Center" Text="{Binding Roaster}" Style="{StaticResource LabelLarge}"></Label>
+                                </StackLayout>
+                                <!--<Button Text="Favorite" 
+                                        Command="{Binding  
+                                    Source={RelativeSource 
+                                    AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, 
+                                    Path=FavoriteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        VerticalOptions="EndAndExpand"
+                                        FontSize="Medium"></Button>-->
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+        <!--Header and Footer FontFamily="FAS" Text="{x:Static fontAwesome:FontAwesomeIcons.Coffee}"-->
+        <ListView.GroupHeaderTemplate>
+            <DataTemplate x:DataType="{x:Null}">
+                <ViewCell>
+                    <StackLayout Padding="20,0">
+                        <Label Style="{StaticResource LabelMedium}"
+                               Text="{Binding Key}"></Label>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.GroupHeaderTemplate>
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Label Text="Coffee of the World" 
+                       Margin="20"
+                       Style="{StaticResource LabelLarge}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </ListView.Header>
+        <ListView.Footer>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Button Text="Load More"
+                        Command="{Binding LoadMoreCommand}"
+                        Style="{StaticResource ButtonOutline}"></Button>
+            </StackLayout>
+        </ListView.Footer>
+    </ListView>
+    <!--<ContentPage.Content>-->
+        <!--<Grid RowDefinitions="*,Auto,Auto,*">
+
+            <Label Grid.Row="1" 
+                    Text="{Binding CountDisplay}"
+                    HorizontalOptions="Center" 
+                    FontSize="Large"/>
+            
+            <Button x:Name="ButtonClick" 
+                    Command="{Binding IncreaseCount}"
+                    Grid.Row="2" 
+                    Text="Click Me"></Button>
+        </Grid>-->
+    <!--</ContentPage.Content>-->
+</ContentPage>
